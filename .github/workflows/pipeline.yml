@@ -12,22 +12,27 @@ jobs:
   tests-unit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
-          cache: pip
-          
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Setup Python and Install Dependencies
+        uses: ./.github/actions/setup-python
         
       - name: Run unit tests
         run: pytest
 
+  linting: 
+    runs-on: ubuntu-latest
+    permissions: write-all 
+    steps: 
+      - name: Setup Python and Install Dependencies
+        uses: ./.github/actions/setup-python
+
+      - name: Install Ruff
+        run: pip install ruff
+      
+      - name: Lint with Ruff
+        run: ruff .
+
   codeql-analysis:
+    if: ${{ !github.event.act }} # skip during local actions testing
     runs-on: ubuntu-latest
     permissions: write-all 
     steps: 
@@ -44,3 +49,4 @@ jobs:
     
       - name: CodeQL analysis
         uses: github/codeql-action/analyze@v3
+

@@ -33,3 +33,6 @@
 - Installed Chocolatey to make it easier to install packages on Windows.
 - Installed a tool called ACT to run GitHub actions locally. This made it easier to verify they work without spamming GitHub.
   - Installed Docker as this was a dependency of ACT.
+
+- I then added CodeQL scanning to my pipeline to scan for vulnerabilities in my code. I ran into an issue where I had to make 
+my repository public as code scanning isn't enabled for private repos 
