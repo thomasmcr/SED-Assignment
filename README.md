@@ -26,6 +26,7 @@
 - To install the requirements run `pip install -r 'requirements.txt'`
 - To update `requirements.txt` run `pip freeze > requirements.txt`
 - To run the app in development mode run `uvicorn src.main:app --reload`
+- To test the pipeline locally run `act` if it installed on your system
 
 ## Notes for Assignment
 

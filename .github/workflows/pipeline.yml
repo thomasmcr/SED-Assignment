@@ -9,20 +9,38 @@ on:
       - 'main'
 
 jobs:
-  tests:
+  tests-unit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
           cache: pip
           
-      - name: Install python packages
+      - name: Install dependencies
         run: pip install -r requirements.txt
         
-      - name: Run tests
+      - name: Run unit tests
         run: pytest
+
+  codeql-analysis:
+    runs-on: ubuntu-latest
+    permissions: write-all 
+    steps: 
+      - name: Checkout 
+        uses: actions/checkout@v4
+      
+      - name: Initialise CodeQL
+        uses: github/codeql-action/init@v3 
+        with: 
+          languages: 'javascript,python'
+
+      - name: CodeQL autobuild
+        uses: github/codeql-action/autobuild@v3
+    
+      - name: CodeQL analysis
+        uses: github/codeql-action/analyze@v3
