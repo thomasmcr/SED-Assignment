@@ -1,5 +1,5 @@
 name: 'Setup Python and Install Dependencies'
-description: 'Check out the repository, setup Python and install dependencies'
+description: 'Setup Python and install dependencies'
 inputs:
   python-version:
     description: 'Python version to use'
@@ -8,16 +8,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python-version }}
         cache: pip
-        
+
     - name: Install dependencies
       run: pip install -r requirements.txt
-
-

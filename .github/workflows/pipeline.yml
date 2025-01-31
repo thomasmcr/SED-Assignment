@@ -11,10 +11,15 @@ on:
 jobs:
   tests-unit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4 
+
       - name: Setup Python and Install Dependencies
-        uses: ./.github/actions/setup-python
-        
+        uses: ./.github/actions/setup-python-action
+
       - name: Run unit tests
         run: pytest
 
@@ -22,12 +27,15 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all 
     steps: 
+      - name: Checkout
+        uses: actions/checkout@v4 
+
       - name: Setup Python and Install Dependencies
-        uses: ./.github/actions/setup-python
+        uses: ./.github/actions/setup-python-action
 
       - name: Install Ruff
         run: pip install ruff
-      
+
       - name: Lint with Ruff
         run: ruff .
 
@@ -38,7 +46,7 @@ jobs:
     steps: 
       - name: Checkout 
         uses: actions/checkout@v4
-      
+
       - name: Initialise CodeQL
         uses: github/codeql-action/init@v3 
         with: 
@@ -46,7 +54,6 @@ jobs:
 
       - name: CodeQL autobuild
         uses: github/codeql-action/autobuild@v3
-    
+
       - name: CodeQL analysis
         uses: github/codeql-action/analyze@v3
-
