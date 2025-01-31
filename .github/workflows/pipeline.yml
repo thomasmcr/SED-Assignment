@@ -11,8 +11,6 @@ on:
 jobs:
   tests-unit:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4 
@@ -37,7 +35,7 @@ jobs:
         run: pip install ruff
 
       - name: Lint with Ruff
-        run: ruff .
+        run: ruff check 
 
   codeql-analysis:
     if: ${{ !github.event.act }} # skip during local actions testing
