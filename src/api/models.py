@@ -11,7 +11,7 @@ class ItemAttributePublic(BaseModel):
     id: int
     item_id: int
     attribute: AttributePublic
-    attribute_value: str
+    value: str
 
     class Config:
         orm_mode = True
