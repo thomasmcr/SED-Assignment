@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from .database.core import create_db_and_populate_tables, SessionDep
-from .database.models import Item
+from .database.schema import Item
 from .api.models import ItemPublic
 from sqlmodel import select
 
