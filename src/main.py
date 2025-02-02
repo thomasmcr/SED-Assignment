@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from .database.core import create_db_and_populate_tables
+from .database.core import create_db_and_populate_tables, SessionDep
+from .database.models import Item
+from .api.models import ItemPublic
+from sqlmodel import select
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -12,4 +16,17 @@ app = FastAPI(lifespan=lifespan)
 @app.get("/")
 def home():
     return {"Hello": "World"}
+
+@app.post("/item", response_model=ItemPublic)
+def post_item(item: Item, session: SessionDep):
+    session.add(item)
+    session.commit()
+    session.refresh(item)
+    return item
+
+@app.get("/items", response_model=list[ItemPublic])
+def get_items(session: SessionDep):
+    statement = select(Item)
+    results = session.exec(statement).all()
+    return results 
     

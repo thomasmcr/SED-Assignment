@@ -36,3 +36,7 @@
 
 - I then added CodeQL scanning to my pipeline to scan for vulnerabilities in my code. I ran into an issue where I had to make 
 my repository public as code scanning isn't enabled for private repos 
+
+## TODO: 
+
+- Join Attribute and ItemAttribute in the response so we just have a single JSON attribute { id, name, value } rather than { id, name } and value seperately 
