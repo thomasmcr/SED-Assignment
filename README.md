@@ -40,3 +40,4 @@ my repository public as code scanning isn't enabled for private repos
 ## TODO: 
 
 - Join Attribute and ItemAttribute in the response so we just have a single JSON attribute { id, name, value } rather than { id, name } and value seperately 
+- Move database url to .env 
