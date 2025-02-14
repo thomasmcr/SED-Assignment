@@ -13,7 +13,7 @@ async def home(request: Request):
     )
 
 @router.get("/browse", tags=["Pages"], response_class=HTMLResponse)
-async def home(request: Request):
+async def browse(request: Request):
     path = request.url.path
     return templates.TemplateResponse(
         request=request, name="pages/browse.html", context={"path": path}

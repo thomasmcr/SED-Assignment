@@ -3,34 +3,17 @@
 {% block title %}Home{% endblock %}
 {% block head %}
     {{ super() }}
-    <style>
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.015);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .pulse {
-            animation: pulse 0.5s ease-out;
-        }
-    </style>
 {% endblock %}
 {% block content %}  
-    <div style="display: flex; align-items: center; width: 30rem;">
-        <input type="text" class="form-control" style="margin-right: 6px;" placeholder="Search items..." id="search">
-        <button type="button" class="btn btn-primary" style="margin-right: 24px;" onclick="searchItems()">Search</button>
+    <form id="search-form" onsubmit="getItems(event)" style="display: flex; align-items: center; width: 30rem;">
+        <input type="text" id="search" class="form-control" style="margin-right: 6px;" placeholder="Search items...">
+        <button type="submit" class="btn btn-primary" style="margin-right: 24px;">Search</button>
         <div class="spinner-border text-primary" id="spinner" style="flex-grow: 0; flex-shrink: 0; visibility: hidden;" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
-    </div>
+    </form>
     <div id="alert-wrapper"></div>
-    <table class="table mt-4 mb-4" style="border: var(--bs-border-width) solid var(--bs-border-color);">
+    <table class="table table-hover mt-4 mb-4" style="border: var(--bs-border-width) solid var(--bs-border-color);">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -47,61 +30,7 @@
 {% endblock %}
 {% block javascript %}
    {{ super() }}
-   <script>
-
-    const searchInput = document.getElementById("search");
-    const spinner = document.getElementById("spinner");
-    const alertWrapper = document.getElementById("alert-wrapper")
-
-    async function searchItems() {
-        setLoading(true);
-        const searchQuery = searchInput.value; 
-        try {
-            const response = await fetch(`/search?name=${searchQuery}`);
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(`${data.detail} (Status: ${response.status})`);
-            }
-            populateTable(data);
-        } catch (error) {
-            console.error(error);
-            triggerAlert(error, "danger")
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    function populateTable(items, clear=true) {
-        const tableBody = document.getElementById("item-table");
-        if(clear){ tableBody.innerHTML = ""; }
-        items.forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <th scope="row">${item.id}</th>
-                <td>${item.name}</td>
-                <td>${item.description}</td>
-                <td>${item.quantity}</td>
-            `;
-            tableBody.appendChild(row);
-        });
-    }
-
-    function setLoading(state) {
-        spinner.style.visibility = state ? "visible" : "hidden";
-    }
-
-    function triggerAlert(message, type)
-    {
-        const hasExistingAlert = alertWrapper.innerHTML.trim() !== ""; 
-        const alertHTML = [
-            `<div class="alert alert-${type} alert-dismissible mt-4 ${hasExistingAlert ? "pulse" : ""}" role="alert" style="display: flex; align-items: center">`,
-            `   <i class="bi bi-exclamation-triangle-fill" style="margin-right: 1rem"></i>`,
-            `   ${message}`,
-            `  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`,
-            `</div>`
-        ].join("")
-        alertWrapper.innerHTML = alertHTML;
-    }
-
-    </script>
+    <script src="{{ url_for('static', path='/javascript/alert.js') }}"></script>
+    <script src="{{ url_for('static', path='/javascript/browse.js') }}"></script>
+    <script>getItems()</script>
 {% endblock %}
