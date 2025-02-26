@@ -3,12 +3,11 @@ const spinner = document.getElementById("spinner");
 const alertWrapper = document.getElementById("alert-wrapper")
 
 async function getItems(event) {
-    console.log(event)
     if(event) event.preventDefault();
     setLoading(true);
     const searchQuery = searchInput.value; 
     try {
-        const response = await fetch(`/items?query=${searchQuery}`);
+        const response = await fetch(`/item?query=${searchQuery}`);
         const data = await response.json();
         if (!response.ok) {
             throw new Error(`${data.detail} (Status: ${response.status})`);

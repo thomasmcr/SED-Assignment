@@ -1,5 +1,13 @@
 from pydantic import BaseModel
 
+class RegisterUserModel(BaseModel):
+    username: str
+    password: str
+
+class UserPublic(BaseModel):
+    id: int 
+    username: str
+    
 class AttributePublic(BaseModel):
     id: int
     name: str

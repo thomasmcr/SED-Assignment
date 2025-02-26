@@ -13,3 +13,7 @@
 .pulse {
     animation: pulse 0.5s ease-out;
 }
+
+td {
+    vertical-align: middle;
+}

@@ -2,11 +2,11 @@ from fastapi import APIRouter, HTTPException
 from src.database.core import SessionDep
 from src.database.schema import Item
 from src.models import ItemPublic
-from sqlmodel import col, or_, select, delete
+from sqlmodel import col, or_, select
 
 router = APIRouter()
 
-@router.get("/items", response_model=list[ItemPublic], tags=["Item"])
+@router.get("/item", response_model=list[ItemPublic], tags=["Item"])
 async def get_items(session: SessionDep, query: str | None):
     if(query):
         statement = select(Item).where(or_(col(Item.name).contains(query), col(Item.description).contains(query)))
@@ -22,6 +22,7 @@ def post_item(item: Item, session: SessionDep):
     session.refresh(item)
     return item
 
+#TODO: protect this route with auth
 @router.delete("/item", tags=["Item"])
 def delete_item(id: int, session: SessionDep):
     item = session.get(Item, id)
