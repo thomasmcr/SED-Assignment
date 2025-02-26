@@ -1,15 +1,11 @@
-{% from "components/login_modal.html" import login_modal %}
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
-{% block head %}{{ super() }}{% endblock %}
 {% block content %}  
    <!-- Button trigger modal -->
    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
       Launch demo modal
    </button>
    
-   {{ login_modal() }}
-
    <!-- Buttons -->
    <button type="button" class="btn btn-primary">Primary</button>
    <button type="button" class="btn btn-secondary">Secondary</button>
