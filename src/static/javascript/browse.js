@@ -1,4 +1,5 @@
 const searchInput = document.getElementById("search");
+const resultCount = document.getElementById("result-count"); 
 const spinner = document.getElementById("spinner");
 const alertWrapper = document.getElementById("alert-wrapper")
 
@@ -23,6 +24,8 @@ async function getItems(event) {
 
 function populateTable(items, clear=true) {
     const tableBody = document.getElementById("item-table");
+    const plural = items.length > 1; 
+    resultCount.innerHTML = `Found ${items.length} Result${plural ? "s" : ""}`
     if(clear){ tableBody.innerHTML = ""; }
     items.forEach(item => {
         const row = document.createElement('tr');
@@ -31,10 +34,6 @@ function populateTable(items, clear=true) {
             <td>${item.name}</td>
             <td>${item.description}</td>
             <td>${item.quantity}</td>
-            <td>
-                <button type="button" class="btn btn-secondary btn-sm">Edit</button>
-                <button type="button" class="btn btn-secondary btn-sm">Delete</button>
-            </td>
         `;
         tableBody.appendChild(row);
     });

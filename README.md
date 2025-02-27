@@ -39,5 +39,14 @@ my repository public as code scanning isn't enabled for private repos
 
 ## TODO: 
 
-- Join Attribute and ItemAttribute in the response so we just have a single JSON attribute { id, name, value } rather than { id, name } and value seperately 
-- Move database url to .env 
+- Use the fastapi website to update the auth implementation to actually use JWT 
+  - This tutorial might help https://www.youtube.com/watch?v=SKPms69KIco
+- Update the login_modal form to call out to the /token endpoint to grab a token. 
+  - Store the token in a cookie, which can then be returned when navigating to a page. 
+  - Upon succesful login. force refresh the page so that we can use the context
+- Create a stash entity, which is essentially a location with an owner. The owner should be able to add and remove users and manage their permissions
+- Each stash holds many items.  
+
+
+- Setup the frontend to interact with and handle the tokens, not just the swagger
+- Ditch the attribute system and instead just give each item a location description, weight, etc. 

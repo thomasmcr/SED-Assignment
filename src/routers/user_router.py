@@ -5,8 +5,5 @@ router = APIRouter()
 
 @router.post("/register", tags=["User"])
 async def create_user(user: RegisterUserModel):
+    #TODO: create user in database and hash password
     return user
-
-@router.post("/login", tags=["User"])
-async def user_login():
-    return False
