@@ -47,6 +47,11 @@ my repository public as code scanning isn't enabled for private repos
 - Create a stash entity, which is essentially a location with an owner. The owner should be able to add and remove users and manage their permissions
 - Each stash holds many items.  
 
+FUNCTIONALITY
+
+- When creating a user, assign each user a list of locations. Users should only be able to view the stock at that location
+- Admins can create new users and assign them to locations 
+
 
 - Setup the frontend to interact with and handle the tokens, not just the swagger
 - Ditch the attribute system and instead just give each item a location description, weight, etc. 

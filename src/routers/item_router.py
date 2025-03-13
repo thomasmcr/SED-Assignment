@@ -1,8 +1,7 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException
 from src.database.core import SessionDep
 from src.database.schema import Item
 from src.models import ItemPublic
-from src.dependencies.auth_dependencies import get_current_user
 from sqlmodel import col, or_, select
 
 router = APIRouter()
@@ -25,7 +24,7 @@ def post_item(item: Item, session: SessionDep):
 
 #TODO: protect this route with auth
 @router.delete("/item", tags=["Item"])
-def delete_item(id: int, session: SessionDep, user = Depends(get_current_user)):
+def delete_item(id: int, session: SessionDep):
     item = session.get(Item, id)
     if not item: 
         raise HTTPException(status_code=404, detail="Item not found")

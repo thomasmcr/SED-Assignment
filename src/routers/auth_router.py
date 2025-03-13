@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from passlib.context import CryptContext 
 from src.database.core import SessionDep
@@ -14,5 +14,4 @@ async def login(session: SessionDep, form_data: OAuth2PasswordRequestForm = Depe
     #Issue JWT if they exist
     #Else return 400, incorrect username or password
     return {"access_token": "user-id", "token_type": "bearer"} 
-    
     

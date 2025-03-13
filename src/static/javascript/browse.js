@@ -13,7 +13,7 @@ async function getItems(event) {
         if (!response.ok) {
             throw new Error(`${data.detail} (Status: ${response.status})`);
         }
-        populateTable(data);
+        populateTable(data, searchQuery);
     } catch (error) {
         console.error(error);
         insertAlert?.(error, "danger", alertWrapper)
@@ -22,10 +22,10 @@ async function getItems(event) {
     }
 }
 
-function populateTable(items, clear=true) {
+function populateTable(items, searchQuery="", clear=true) {
     const tableBody = document.getElementById("item-table");
     const plural = items.length > 1; 
-    resultCount.innerHTML = `Found ${items.length} Result${plural ? "s" : ""}`
+    resultCount.innerHTML = `Found ${items.length} result${plural ? "s" : ""} ${searchQuery ? `for "${searchQuery}"` : ""}`;
     if(clear){ tableBody.innerHTML = ""; }
     items.forEach(item => {
         const row = document.createElement('tr');
