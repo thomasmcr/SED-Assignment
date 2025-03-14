@@ -21,11 +21,19 @@
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
-            Login / Register
-         </button>
-        </li>
+        {% if not user %}
+          <li class="nav-item">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+              Login / Register
+            </button>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <button type="button" class="btn btn-primary" onclick="handleLogout()">
+              Logout
+            </button>
+          </li>
+        {% endif %}
     </div>
   </div>
 </nav>

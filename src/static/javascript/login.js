@@ -3,7 +3,7 @@ const loginAlertWrapper = document.getElementById("login-alert-wrapper")
 async function handleLogin(event, path) {
     if(event) event.preventDefault();
     const formData = new FormData(event.target); 
-    //Validate response
+    //TODO: validate response
     try {
         const response = await fetch("/token", { method: "POST",  body: formData });
         const data = await response.json();
@@ -11,11 +11,12 @@ async function handleLogin(event, path) {
             throw new Error(`${data.detail} (Status: ${response.status})`);
         }
         else { 
-            sessionStorage.setItem("token", data.access_token);
-            location.replace(path) //Reload the page on success
+            console.log(data);
+            sessionStorage.setItem("access_token", data.access_token);
+            location.replace(path); //Reload the page on success
         }
     } catch (error) {
         console.error(error);
-        insertAlert?.(error, "danger", loginAlertWrapper)
+        insertAlert?.(error, "danger", loginAlertWrapper);
     } 
 }

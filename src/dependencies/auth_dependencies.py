@@ -33,8 +33,17 @@ def authenticate_user(user_id: str, session: SessionDep) -> User | None:
     return session.exec(statement).first()
     #Query db for user and return user or none
 
+#Dependency to be used in endpoints, gets the current user ore returns none
+async def get_current_user(session: SessionDep, request: Request):
+    token = request.cookies.get("access_token") or ""
+    user_id = decode_token(token)
+    if user_id is None: 
+        return None
+    user: User = authenticate_user(user_id, session)
+    return user 
+
 #Dependency to be used in api endpoints, either gets the current user or throws a 401
-async def get_current_user(session: SessionDep, token: str = Depends(OAUTH2_SCHEME)):
+async def get_current_user_or_throw(session: SessionDep, token: str = Depends(OAUTH2_SCHEME)):
     user_id = decode_token(token)
     if user_id is None: 
         raise CREDENTIALS_EXCEPTION
@@ -44,7 +53,7 @@ async def get_current_user(session: SessionDep, token: str = Depends(OAUTH2_SCHE
     return user 
 
 #Dependency to be used in page endpoints, either gets the current user or redirects
-async def get_current_user_redirect(session: SessionDep, request: Request):
+async def get_current_user_or_redirect(session: SessionDep, request: Request):
     token = request.cookies.get("access_token") or ""
     user_id = decode_token(token)
     if user_id is None: 
@@ -53,5 +62,3 @@ async def get_current_user_redirect(session: SessionDep, request: Request):
     if user is None: 
         raise AuthRedirect
     return user 
-
-

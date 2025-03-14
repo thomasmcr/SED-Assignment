@@ -1,19 +1,51 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from passlib.context import CryptContext 
-from src.database.core import SessionDep
+from passlib.context import CryptContext
+from sqlmodel import select 
+from src.database.core import SessionDep, User
+from datetime import datetime, timedelta, UTC
+import jwt, os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 router = APIRouter()
+
+# Function to create JWT token
+def create_access_token(data: dict):
+    expire = datetime.now(tz=UTC) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode = data.copy()
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+# Function to verify password
+def verify_password(plain_password, hashed_password):
+    # TODO: actually hash password
+    # return pwd_context.verify(plain_password, hashed_password)
+    return plain_password == hashed_password
+
+# Function to authenticate user credentials
+def authenticate_user(session: SessionDep, username: str, password: str):
+    statement = select(User).where(User.username == username)
+    user = session.exec(statement).first()
+    if user and verify_password(password, user.password):
+        return user
+    return None
 
 @router.post("/token", tags=["Auth"])
 async def login(session: SessionDep, response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
-    #Get user using form_data.username 
-    #Compare password hashes 
-    #Issue JWT if they exist
-    #Else return 400, incorrect username or password
-    response.set_cookie("access_token", "user-id"); 
-    #Maybe look if its better to just set the cookie
-    return {"access_token": "user-id", "token_type": "bearer"} 
-    
+    user = authenticate_user(session, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect username or password"
+        )
+    access_token = create_access_token(data={"user-id": user.id})
+    response.set_cookie("access_token", access_token)
+    return {"access_token": access_token, "token_type": "bearer"}
