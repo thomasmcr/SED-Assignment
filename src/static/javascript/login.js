@@ -1,15 +1,21 @@
-async function handleLogin(event)
-{
+const loginAlertWrapper = document.getElementById("login-alert-wrapper")
+
+async function handleLogin(event, path) {
     if(event) event.preventDefault();
     const formData = new FormData(event.target); 
-    const response = await fetch("/token", {
-        method: "POST",
-        body: formData
-    });
-    const data = await response.json();
-    if (data.access_token) {
-        sessionStorage.setItem("token", data.access_token); 
-    } else {
-        console.error("Login failed");
-    }
+    //Validate response
+    try {
+        const response = await fetch("/token", { method: "POST",  body: formData });
+        const data = await response.json();
+        if (!response.ok) { 
+            throw new Error(`${data.detail} (Status: ${response.status})`);
+        }
+        else { 
+            sessionStorage.setItem("token", data.access_token);
+            location.replace(path) //Reload the page on success
+        }
+    } catch (error) {
+        console.error(error);
+        insertAlert?.(error, "danger", loginAlertWrapper)
+    } 
 }

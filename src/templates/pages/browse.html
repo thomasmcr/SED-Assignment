@@ -5,11 +5,11 @@
     <form id="search-form" onsubmit="getItems(event)" style="display: flex; align-items: center; width: 30rem;">
         <input type="text" id="search" class="form-control" style="margin-right: 6px;" placeholder="Search items...">
         <button type="submit" class="btn btn-primary" style="margin-right: 24px;">Search</button>
-        <div class="spinner-border text-primary" id="spinner" style="flex-grow: 0; flex-shrink: 0; visibility: hidden;" role="status">
+        <div class="spinner-border text-primary" id="browse-spinner" style="flex-grow: 0; flex-shrink: 0; visibility: hidden;" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </form>
-    <div id="alert-wrapper"></div>
+    <div id="browse-alert-wrapper"></div>
     <p id="result-count" class="mt-4"></p>
     <table class="table table-hover mt-2" style="border: var(--bs-border-width) solid var(--bs-border-color);">
         <thead>
@@ -27,7 +27,6 @@
 {% endblock %}
 {% block javascript %}
    {{ super() }}
-    <script src="{{ url_for('static', path='/javascript/alert.js') }}"></script>
     <script src="{{ url_for('static', path='/javascript/browse.js') }}"></script>
     <script>getItems()</script>
 {% endblock %}

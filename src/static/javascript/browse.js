@@ -1,8 +1,9 @@
 const searchInput = document.getElementById("search");
 const resultCount = document.getElementById("result-count"); 
-const spinner = document.getElementById("spinner");
-const alertWrapper = document.getElementById("alert-wrapper")
+const spinner = document.getElementById("browse-spinner");
+const alertWrapper = document.getElementById("browse-alert-wrapper")
 
+//Get items from the database 
 async function getItems(event) {
     if(event) event.preventDefault();
     setLoading(true);
@@ -22,6 +23,7 @@ async function getItems(event) {
     }
 }
 
+//Populate table with the given array of items
 function populateTable(items, searchQuery="", clear=true) {
     const tableBody = document.getElementById("item-table");
     const plural = items.length > 1; 
@@ -39,6 +41,7 @@ function populateTable(items, searchQuery="", clear=true) {
     });
 }
 
+//Toggle loading
 function setLoading(state) {
     spinner.style.visibility = state ? "visible" : "hidden";
 }
