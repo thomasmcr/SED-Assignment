@@ -39,13 +39,12 @@ my repository public as code scanning isn't enabled for private repos
 
 ## TODO: 
 
-- Use the fastapi website to update the auth implementation to actually use JWT 
-  - This tutorial might help https://www.youtube.com/watch?v=SKPms69KIco
-- Update the login_modal form to call out to the /token endpoint to grab a token. 
-  - Store the token in a cookie, which can then be returned when navigating to a page. 
-  - Upon succesful login. force refresh the page so that we can use the context
-- Create a stash entity, which is essentially a location with an owner. The owner should be able to add and remove users and manage their permissions
-- Each stash holds many items.  
+- Add an active_token boolean to the user so that tokens can be invalidated
+- Update assignment to mention this
+- Setup logout function that sets active_token to false and removes token from localstorage and cookies
+- Create add item form 
+- Create manage users page
+- Add tests 
 
 FUNCTIONALITY
 

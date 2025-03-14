@@ -1,11 +1,16 @@
 from typing import Optional
 from sqlmodel import Field, SQLModel, Relationship
 
+from src.models import UserPublic
+
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     username: str
     password: str
     is_admin: bool = Field(default=False)
+
+    def get_user_public(self):
+        return UserPublic.model_validate(self)
 
 class Item(SQLModel, table=True): 
     id: Optional[int] = Field(default=None, primary_key=True)

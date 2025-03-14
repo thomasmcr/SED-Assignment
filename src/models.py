@@ -7,13 +7,17 @@ class RegisterUserModel(BaseModel):
 class UserPublic(BaseModel):
     id: int 
     username: str
+
+    class Config:
+        from_attributes = True
+    
     
 class AttributePublic(BaseModel):
     id: int
     name: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ItemAttributePublic(BaseModel):
     id: int
@@ -22,7 +26,7 @@ class ItemAttributePublic(BaseModel):
     value: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ItemPublic(BaseModel):
     id: int
@@ -32,4 +36,4 @@ class ItemPublic(BaseModel):
     item_attributes: list[ItemAttributePublic]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
