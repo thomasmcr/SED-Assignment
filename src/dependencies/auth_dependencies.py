@@ -6,8 +6,6 @@ from fastapi.security import OAuth2PasswordBearer
 from src.database.core import SessionDep, User
 import jwt, os
 
-from src.models import UserPublic
-
 load_dotenv()
 
 CREDENTIALS_EXCEPTION = HTTPException(
@@ -40,7 +38,7 @@ async def get_current_user(session: SessionDep, request: Request) -> User | None
     user_id = decode_token(token)
     if user_id is None: 
         return None
-    user: User = authenticate_user(user_id, session)
+    user = authenticate_user(user_id, session)
     return user
 
 #Dependency to be used in api endpoints, either gets the current user or throws a 401
@@ -48,7 +46,7 @@ async def get_current_user_or_throw(session: SessionDep, token: str = Depends(OA
     user_id = decode_token(token)
     if user_id is None: 
         raise CREDENTIALS_EXCEPTION
-    user: User = authenticate_user(user_id, session)
+    user = authenticate_user(user_id, session)
     if user is None: 
         raise CREDENTIALS_EXCEPTION
     return user
@@ -59,7 +57,7 @@ async def get_current_user_or_redirect(session: SessionDep, request: Request) ->
     user_id = decode_token(token)
     if user_id is None: 
         raise AuthRedirect
-    user: User = authenticate_user(user_id, session)
+    user = authenticate_user(user_id, session)
     if user is None: 
         raise AuthRedirect
     return user
