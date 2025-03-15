@@ -16,3 +16,8 @@ def test_read_main(test_client, test_db_session: Session):
 
     response = test_client.get("/")
     assert response.status_code == 200
+
+def test_read_main_two(test_client, test_db_session: Session):
+    statement = select(User)
+    user: User = test_db_session.exec(statement).first()
+    assert user is None
