@@ -1,32 +1,34 @@
-from dotenv import load_dotenv
-from fastapi.testclient import TestClient
-from sqlmodel import create_engine, Session, SQLModel
-from src.database.core import get_session
-from src.main import app
 import pytest
-import os
+from fastapi.testclient import TestClient
+from sqlmodel import Session, SQLModel, create_engine
+from sqlmodel.pool import StaticPool
+from src.database.core import get_session
+from src.database.schema import User
+from src.dependencies.auth_dependencies import get_current_user_or_throw
+from src.main import app
 
-load_dotenv()
+async def override_get_current_user_or_throw():
+    return User(id=0, username="test", password="test", is_admin=1)
 
-TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL")
-connect_args = {"check_same_thread": False}
-engine = create_engine(TEST_DATABASE_URL, connect_args=connect_args)
-
-#Setup test database
-@pytest.fixture(scope="function")
-def test_db_session():
-    SQLModel.metadata.create_all(engine) #Create tables
-    session= Session(engine)
-    try:
+@pytest.fixture(name="session")
+def session_fixture():
+    engine = create_engine(
+        "sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
+    )
+    SQLModel.metadata.create_all(engine)
+    with Session(engine) as session:
         yield session
-    finally:
-        session.close()
-        SQLModel.metadata.drop_all(engine) #Clear tables
 
-#Setup test app 
-@pytest.fixture(scope="module")
-def test_client():
-    #Overrides the get_session dependency to use the test database session instead
-    app.dependency_overrides[get_session] = lambda: test_db_session
-    with TestClient(app) as client: 
-        yield client
+
+@pytest.fixture(name="client")
+def client_fixture(session: Session):
+    def get_session_override():
+        return session
+
+    app.dependency_overrides[get_session] = get_session_override
+    app.dependency_overrides[get_current_user_or_throw] = override_get_current_user_or_throw
+
+    with TestClient(app) as client:
+        yield client 
+
+    app.dependency_overrides.clear()
