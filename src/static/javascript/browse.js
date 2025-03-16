@@ -8,8 +8,15 @@ async function getItems(event) {
     if(event) event.preventDefault();
     setLoading(true);
     const searchQuery = searchInput.value; 
+    const token = sessionStorage.getItem("access_token");
+    const headers = token ? {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+    } : {
+        "Content-Type": "application/json"
+    };
     try {
-        const response = await fetch(`/item?query=${searchQuery}`);
+        const response = await fetch(`/item?query=${searchQuery}`, {method: "GET", headers: headers});
         const data = await response.json();
         if (!response.ok) {
             throw new Error(`${data.detail} (Status: ${response.status})`);
