@@ -3,10 +3,10 @@ name: SED Assignment CI
 on:
   push:
     branches:
-      - 'Main'
+      - 'main'
   pull_request:
     branches:
-      - 'Main'
+      - 'main'
 
 permissions: 
   contents: read 
@@ -68,7 +68,7 @@ jobs:
         with: 
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
-          wait-for-success: true
+          wait-for-success: false
 
   
   #TODO: include render deployment step 
