@@ -1,6 +1,5 @@
 from typing import Optional
 from sqlmodel import Field, SQLModel, Relationship
-
 from src.models import UserPublic
 
 class User(SQLModel, table=True):

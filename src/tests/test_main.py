@@ -1,5 +1,3 @@
-from fastapi import Depends
-from src.database.core import SessionDep, get_session
 from src.database.schema import Item, User
 from sqlmodel import Session, select
 
