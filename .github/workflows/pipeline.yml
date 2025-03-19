@@ -27,7 +27,7 @@ jobs:
         run: pip install ruff
 
       - name: Lint with Ruff
-        run: ruff check --fix
+        run: ruff check
 
   tests-unit:
     runs-on: ubuntu-latest

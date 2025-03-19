@@ -4,8 +4,9 @@ from passlib.context import CryptContext
 from sqlmodel import select 
 from src.database.core import SessionDep, User
 from datetime import datetime, timedelta, UTC
-import jwt, os
 from dotenv import load_dotenv
+import jwt
+import os
 
 load_dotenv()
 

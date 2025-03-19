@@ -4,7 +4,8 @@ from src.handlers.auth_redirect_handler import AuthRedirect
 from fastapi import Depends, Request, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from src.database.core import SessionDep, User
-import jwt, os
+import jwt
+import os
 
 load_dotenv()
 
@@ -24,7 +25,7 @@ def decode_token(token) -> int:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("user-id")
         return user_id
-    except jwt.InvalidTokenError as e:
+    except jwt.InvalidTokenError:
         return None
 
 #Query db for user based on user_id and return user or none
