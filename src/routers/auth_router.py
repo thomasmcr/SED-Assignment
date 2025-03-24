@@ -34,7 +34,6 @@ def authenticate_user(session: SessionDep, username: str, password: str):
         return user
     return None
 
-# 
 @router.post("/token", tags=["Auth"])
 async def login(session: SessionDep, response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(session, form_data.username, form_data.password)
@@ -46,6 +45,11 @@ async def login(session: SessionDep, response: Response, form_data: OAuth2Passwo
     access_token = create_access_token(data={"user-id": user.id})
     response.set_cookie("access_token", access_token)
     return {"access_token": access_token, "token_type": "bearer"}
+
+@router.post("/logout", tags=["Auth"])
+async def logout(response: Response):
+    response.delete_cookie("access_token")
+    return {"message": "Successfully logged out."}
 
 @router.post("/register", tags=["Auth"])
 async def register(session: SessionDep, username: str, password: str):

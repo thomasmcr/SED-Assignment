@@ -1,4 +1,9 @@
 function handleLogout()
 {
-    //TODO: clear cookie and session storage and invalidate token somehow?
+   fetch("/logout", { method: "POST" }).then(response => {
+        if (response.ok) {
+            sessionStorage.clear(); 
+            location.reload();
+        }
+    });
 }
