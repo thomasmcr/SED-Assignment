@@ -1,4 +1,4 @@
-from fastapi import Request, APIRouter, Query, Depends, HTTPException
+from fastapi import Request, APIRouter, Query, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from src.database.core import SessionDep
