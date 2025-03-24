@@ -27,6 +27,7 @@
 {% endblock %}
 {% block javascript %}
    {{ super() }}
+   <script src="{{ url_for('static', path='/javascript/alert.js') }}"></script>
     <script src="{{ url_for('static', path='/javascript/browse.js') }}"></script>
     <script>getItems()</script>
 {% endblock %}
