@@ -38,12 +38,17 @@ function populateTable(items, searchQuery="", clear=true) {
     if(clear){ tableBody.innerHTML = ""; }
     items.forEach(item => {
         const row = document.createElement('tr');
+        const description = item.description.length > 150 ? item.description.slice(0, 150) + "..." : item.description;
         row.innerHTML = `
             <th scope="row">${item.id}</th>
             <td>${item.name}</td>
-            <td>${item.description}</td>
+            <td>${description}</td>
             <td>${item.quantity}</td>
         `;
+        row.style.cursor = "pointer"; 
+        row.addEventListener("click", () => {
+            window.location.href = `/view-item/${item.id}`; 
+        });
         tableBody.appendChild(row);
     });
 }

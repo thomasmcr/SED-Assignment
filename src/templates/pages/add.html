@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block title %}Add{% endblock %}
 {% block content %} 
-    <h2 class="h2" style="margin-bottom: 20px;">Add Item</h2>
-    <form onsubmit="addItem(event)" style="max-width: 50rem;" novalidate>
+    <h2 class="h2" style="margin-bottom: 20px;">Add Item <i class="bi bi-plus-circle" style="position: relative; top: -2px;"></i></h2>
+    <form onsubmit="addItem(event)" style="max-width: 75rem;" novalidate>
         <div id="add-alert-wrapper"></div>
         <div class="mb-3">
             <label for="input-name" class="form-label">Name</label>
@@ -15,7 +15,7 @@
         </div>
         <div class="mb-3">
             <label for="input-description" class="form-label">Description</label>
-            <textarea class="form-control" id="input-description" aria-describedby="description-help" name="description" rows=5 required></textarea>
+            <textarea class="form-control" id="input-description" aria-describedby="description-help" name="description" rows=7 required></textarea>
             <div class="invalid-feedback" data-for="input-description"></div>
             <div id="description-help" class="form-text">Add information about the item, including key features and location.</div>
         </div>

@@ -2,9 +2,28 @@
 {% block title %}Home{% endblock %}
 {% block content %}  
 
-  <h2 class="h2" style="margin-bottom: 20px;">Welcome to Stash</h2>
-  <p>
-    Stash is an inventory management application that allows organisations to view their inventory remotely, across locations. 
-  </p>
+<div class="container" style="margin-left: 5rem !important; margin-right: 0 !important;">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-6 d-flex flex-column justify-content-center">
+      <h1 class="display-5 fw-bold lh-1 mb-3">Welcome to Stash</h1>
+      <p class="lead">
+        Stash simplifies and streamlines inventory management for organisations of all sizes with 
+        an easy-to-use interface, powerful features, and a robust and secure authentication system. 
+      </p>
+      <p>To get started, simply login and begin adding items: </p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+          Login
+        </button>
+        <a href="/add" class="btn btn-secondary btn-lg px-4">Add Item</a>
+      </div>
+    </div>
+    <div class="col-lg-6 d-flex align-items-center">
+      <img src="{{ url_for('static', path='/images/box-stack.png') }}" class="img-fluid mx-auto" alt="Bootstrap Themes" width="400" height="400" loading="lazy">
+    </div>
+  </div>
+</div>
+
+
 
 {% endblock %}
