@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block title %}Add{% endblock %}
+{% block content %} 
+    <h2 class="h2" style="margin-bottom: 20px;">Add Item</h2>
+    <form onsubmit="addItem(event)" style="max-width: 50rem;" novalidate>
+        <div id="add-alert-wrapper"></div>
+        <div class="mb-3">
+            <label for="input-name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="input-name" name="name" required>
+            <div class="invalid-feedback" data-for="input-name"></div>
+        </div>
+        <div class="mb-3">
+            <label for="input-quantity" class="form-label">Quantity</label>
+            <input type="number" class="form-control" id="input-quantity" name="quantity" value="1" required>
+        </div>
+        <div class="mb-3">
+            <label for="input-description" class="form-label">Description</label>
+            <textarea class="form-control" id="input-description" aria-describedby="description-help" name="description" rows=5 required></textarea>
+            <div class="invalid-feedback" data-for="input-description"></div>
+            <div id="description-help" class="form-text">Add information about the item, including key features and location.</div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+{% endblock %}
+{% block javascript %}
+   {{ super() }}
+   <script src="{{ url_for('static', path='/javascript/alert.js') }}"></script>
+   <script src="{{ url_for('static', path='/javascript/add.js') }}"></script>
+{% endblock %}
