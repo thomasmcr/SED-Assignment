@@ -16,6 +16,16 @@ async function updateItem(event, id)
     event.preventDefault();
     if(!validate(nameInput, descriptionInput, quantityInput)){ return; }
 
+    const confirmUpdate = await Swal.fire({
+        title: "Are you sure?",
+        text: "Are you sure you want to update this item?",
+        icon: "warning",
+        showCancelButton: true, 
+        confirmButtonText: "Yes, update it",
+        showCancelButton: "No, I've changed my mind"
+    });
+    if(!confirmUpdate.isConfirmed){ return; }
+
     const name = nameInput.value;
     const description = descriptionInput.value;
     const quantity = quantityInput.value;
@@ -37,6 +47,40 @@ async function updateItem(event, id)
             return;
         }
         location.reload();
+    } catch (error) {
+        console.error("An unexpected error occured: ", error);
+        insertAlert?.(`Unexpected error: ${error.message}`, "danger", alertWrapper);
+    }
+}
+
+async function deleteItem(id, old_location)
+{
+    const confirmUpdate = await Swal.fire({
+        title: "Are you sure?",
+        text: "Are you sure you want to delete this item? this cannot be undone",
+        icon: "warning",
+        showCancelButton: true, 
+        confirmButtonText: "Yes, delete it",
+        showCancelButton: "No, I've changed my mind"
+    });
+    if(!confirmUpdate.isConfirmed){ return; }
+
+    const token = sessionStorage.getItem("access_token");
+    const headers = {
+        "Content-Type": "application/json",
+        ...(token && { "Authorization": `Bearer ${token}` })
+    };
+    try {
+        const response = await fetch(`/item?id=${id}`, { 
+            method: "DELETE", 
+            headers: headers
+        });
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            insertAlert?.(`Error: ${response.status} - ${errorMessage}`, "danger", alertWrapper);
+            return;
+        }
+        location.replace(old_location);
     } catch (error) {
         console.error("An unexpected error occured: ", error);
         insertAlert?.(`Unexpected error: ${error.message}`, "danger", alertWrapper);
