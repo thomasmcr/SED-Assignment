@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block title %}Add{% endblock %}
 {% block content %} 
-    <h2 class="h2" style="margin-bottom: 20px;">Add Item <i class="bi bi-plus-circle" style="position: relative; top: -2px;"></i></h2>
-    <form onsubmit="addItem(event)" style="max-width: 75rem;" novalidate>
+    <h2 class="h2" style="margin-bottom: 20px;">Add Item</h2>
+    <form onsubmit="addItem(event)" novalidate style="max-width: 75rem;">
         <div id="add-alert-wrapper"></div>
         <div class="mb-3">
             <label for="input-name" class="form-label">Name</label>
@@ -20,12 +20,13 @@
             <div id="description-help" class="form-text">Add information about the item, including key features and location.</div>
         </div>
         <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-success">Submit</button>
         </div>
     </form>
 {% endblock %}
 {% block javascript %}
    {{ super() }}
    <script src="{{ url_for('static', path='/javascript/alert.js') }}"></script>
+   <script src="{{ url_for('static', path='/javascript/validate.js') }}"></script>
    <script src="{{ url_for('static', path='/javascript/add.js') }}"></script>
 {% endblock %}

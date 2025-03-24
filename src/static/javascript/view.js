@@ -1,17 +1,32 @@
-const alertWrapper = document.getElementById("add-alert-wrapper");
+const viewCard = document.getElementById("view-card");
+const editCard = document.getElementById("edit-card");
+const alertWrapper = document.getElementById("view-alert-wrapper");
 const nameInput = document.getElementById("input-name");
 const descriptionInput = document.getElementById("input-description");
 const quantityInput = document.getElementById("input-quantity");
 
-//Add item to database
-async function addItem(event) {
-    event.preventDefault();
+function toggleEdit(state)
+{
+    if(state)
+    {
+        viewCard.style.display = "none";
+        editCard.style.display = "block";
+    }       
+    else
+    {
+        viewCard.style.display = "block";
+        editCard.style.display = "none";
+    }
+}
 
-    if (!validate(nameInput, descriptionInput, quantityInput)) { return; }
-    
-    const name = nameInput.value
+async function updateItem(event, id, path)
+{
+    event.preventDefault();
+    if(!validate(nameInput, descriptionInput, quantityInput)){ return; }
+
+    const name = nameInput.value;
     const description = descriptionInput.value;
-    const quantity = quantityInput.value; 
+    const quantity = quantityInput.value;
 
     const token = sessionStorage.getItem("access_token");
     const headers = {
@@ -20,16 +35,16 @@ async function addItem(event) {
     };
     try {
         const response = await fetch(`/item`, { 
-            method: "POST", 
+            method: "PUT", 
             headers: headers, 
-            body: JSON.stringify({ name, description, quantity }) 
+            body: JSON.stringify({ id, name, description, quantity }) 
         });
         if (!response.ok) {
             const errorMessage = await response.text();
             insertAlert?.(`Error: ${response.status} - ${errorMessage}`, "danger", alertWrapper);
             return;
         }
-        insertAlert?.("Successfully added item to database.", "success", alertWrapper);
+        location.replace(path);
     } catch (error) {
         console.error("An unexpected error occured: ", error);
         insertAlert?.(`Unexpected error: ${error.message}`, "danger", alertWrapper);

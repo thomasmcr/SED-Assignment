@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
 {% block content %} 
-    <h2 class="h2" style="margin-bottom: 20px;">Browse Inventory <i class="bi bi-search"></i></h2>
+    <h2 class="h2" style="margin-bottom: 20px;">Browse Inventory</h2>
     <form id="search-form" onsubmit="getItems(event)" style="display: flex; align-items: center; width: 30rem;">
         <input type="text" id="search" class="form-control" style="margin-right: 6px;" placeholder="Search items...">
         <button type="submit" class="btn btn-primary" style="margin-right: 24px;">Search</button>
@@ -10,7 +10,8 @@
         </div>
     </form>
     <div id="browse-alert-wrapper"></div>
-    <p id="result-count" class="mt-4"></p>
+    <p id="result-count" class="mt-2"></p>
+    <p class="mt-4">Select an item below to view additional information, make edits, or delete it.</p>
     <table class="table table-hover mt-2" style="border: var(--bs-border-width) solid var(--bs-border-color);">
         <thead>
             <tr>

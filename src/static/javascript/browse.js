@@ -33,7 +33,7 @@ async function getItems(event) {
 //Populate table with the given array of items
 function populateTable(items, searchQuery="", clear=true) {
     const tableBody = document.getElementById("item-table");
-    const plural = items.length > 1; 
+    const plural = items.length > 1 || items.length == 0; 
     resultCount.innerHTML = `Found ${items.length} result${plural ? "s" : ""} ${searchQuery ? `for "${searchQuery}"` : ""}`;
     if(clear){ tableBody.innerHTML = ""; }
     items.forEach(item => {
@@ -47,7 +47,7 @@ function populateTable(items, searchQuery="", clear=true) {
         `;
         row.style.cursor = "pointer"; 
         row.addEventListener("click", () => {
-            window.location.href = `/view-item/${item.id}`; 
+            window.location.href = `/view/${item.id}?old_path=${window.location.pathname}`; 
         });
         tableBody.appendChild(row);
     });

@@ -2,7 +2,7 @@ function insertAlert(message, type, wrapper)
 {
     const hasExistingAlert = wrapper.innerHTML.trim() !== ""; 
     const alertHTML = `
-        <div class="alert alert-${type} alert-dismissible mt-2 ${hasExistingAlert ? "pulse" : ""}" role="alert" style="display: flex; align-items: center">
+        <div class="alert alert-${type} alert-dismissible mt-4 ${hasExistingAlert ? "pulse" : ""}" role="alert" style="display: flex; align-items: center">
         <i class="bi bi-exclamation-triangle-fill" style="margin-right: 1rem"></i>
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

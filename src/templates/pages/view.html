@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block title %}View{% endblock %}
+{% block content %}
+<h2 class="h2" style="margin-bottom: 20px;">View Item</h2>
+<!-- View Card -->
+<div id="view-card" class="card shadow-sm p-2" style="max-width: 75rem;">
+    <div class="card-body">
+        <h3 class="card-title">{{item.name}}</h3>
+        <p class="card-text" id="item-description">{{item.description}}</p>
+        <p class="card-text"><strong>Quantity:</strong> <span id="item-quantity">{{item.quantity}}</span></p>
+        <div class="d-flex gap-2">
+            <a href="#" class="btn btn-warning" onclick="toggleEdit(true)">Edit</a>
+            <a href="#" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+</div>
+<!-- Edit Card -->
+<div id="edit-card" class="card shadow-sm p-2 mt-4" style="max-width: 75rem; display: none;">
+    <div class="card-body">
+        <h3 class="card-title mb-4">Edit Item</h3>
+        <div id="view-alert-wrapper"></div>
+        <form onsubmit="updateItem(event, `{{item.id}}`, `{{path}}`)" novalidate>
+            <div class="input-group mb-2">
+                <span class="input-group-text fw-bold" id="name-input-label" style="width: 7rem;">Name</span>
+                <input id="input-name" type="text" class="form-control" aria-describedby="name-input-label" placeholder="Enter item name" name="name" value="{{item.name}}">
+                <div class="invalid-feedback" data-for="input-name"></div>
+            </div>
+            <div class="input-group mb-2">
+                <span class="input-group-text fw-bold" id="description-input-label" style="width: 7rem;">Description</span>
+                <textarea id="input-description" class="form-control" aria-describedby="description-input-label" placeholder="Enter item description" rows="7" name="description">{{item.description}}</textarea>
+                <div class="invalid-feedback" data-for="input-description"></div>
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text fw-bold" id="quantity-input-label" style="width: 7rem;">Quantity</span>
+                <input id="input-quantity" type="number" class="form-control" aria-describedby="quantity-input-label" placeholder="Enter quantity" name="quantity" value="{{item.quantity}}">
+                <div class="invalid-feedback" data-for="input-quantity"></div>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="#" class="btn btn-secondary" onclick="toggleEdit(false)">Cancel</a>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<a href="{{ old_path }}" class="btn btn-primary btn-lg mt-4">
+    <i class="bi bi-arrow-left" style="position: relative; top: -2px;"></i> Go Back
+</a>
+{% endblock %}
+{% block javascript %}
+   {{ super() }}
+   <script src="{{ url_for('static', path='/javascript/view.js') }}"></script>
+   <script src="{{ url_for('static', path='/javascript/validate.js') }}"></script>
+   <script src="{{ url_for('static', path='/javascript/alert.js') }}"></script>
+{% endblock %}
