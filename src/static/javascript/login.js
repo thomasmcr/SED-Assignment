@@ -3,7 +3,7 @@ const loginAlertWrapper = document.getElementById("login-alert-wrapper")
 async function handleLogin(event, path) {
     if(event) event.preventDefault();
     const formData = new FormData(event.target); 
-    //TODO: validate response
+    //TODO: validate input
     try {
         const response = await fetch("/token", { method: "POST",  body: formData });
         const data = await response.json();

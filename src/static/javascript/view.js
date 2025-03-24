@@ -5,21 +5,13 @@ const nameInput = document.getElementById("input-name");
 const descriptionInput = document.getElementById("input-description");
 const quantityInput = document.getElementById("input-quantity");
 
-function toggleEdit(state)
+function toggleEdit()
 {
-    if(state)
-    {
-        viewCard.style.display = "none";
-        editCard.style.display = "block";
-    }       
-    else
-    {
-        viewCard.style.display = "block";
-        editCard.style.display = "none";
-    }
+    viewCard.style.display = "none";
+    editCard.style.display = "block";
 }
 
-async function updateItem(event, id, path)
+async function updateItem(event, id)
 {
     event.preventDefault();
     if(!validate(nameInput, descriptionInput, quantityInput)){ return; }
@@ -44,7 +36,7 @@ async function updateItem(event, id, path)
             insertAlert?.(`Error: ${response.status} - ${errorMessage}`, "danger", alertWrapper);
             return;
         }
-        location.replace(path);
+        location.reload();
     } catch (error) {
         console.error("An unexpected error occured: ", error);
         insertAlert?.(`Unexpected error: ${error.message}`, "danger", alertWrapper);

@@ -19,7 +19,7 @@
     <div class="card-body">
         <h3 class="card-title mb-4">Edit Item</h3>
         <div id="view-alert-wrapper"></div>
-        <form onsubmit="updateItem(event, `{{item.id}}`, `{{path}}`)" novalidate>
+        <form onsubmit="updateItem(event, `{{item.id}}`)" novalidate>
             <div class="input-group mb-2">
                 <span class="input-group-text fw-bold" id="name-input-label" style="width: 7rem;">Name</span>
                 <input id="input-name" type="text" class="form-control" aria-describedby="name-input-label" placeholder="Enter item name" name="name" value="{{item.name}}">
@@ -36,7 +36,7 @@
                 <div class="invalid-feedback" data-for="input-quantity"></div>
             </div>
             <div class="d-flex gap-2">
-                <a href="#" class="btn btn-secondary" onclick="toggleEdit(false)">Cancel</a>
+                <a href="#" class="btn btn-secondary" onclick="location.reload()">Cancel</a>
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </form>
