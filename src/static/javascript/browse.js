@@ -9,22 +9,22 @@ async function getItems(event) {
     setLoading(true);
     const searchQuery = searchInput.value; 
     const token = sessionStorage.getItem("access_token");
-    const headers = token ? {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
-    } : {
-        "Content-Type": "application/json"
+    const headers = {
+        "Content-Type": "application/json",
+        ...(token && { "Authorization": `Bearer ${token}` })
     };
     try {
         const response = await fetch(`/item?query=${searchQuery}`, {method: "GET", headers: headers});
-        const data = await response.json();
         if (!response.ok) {
-            throw new Error(`${data.detail} (Status: ${response.status})`);
+            const errorMessage = await response.text();
+            insertAlert?.(`Error: ${response.status} - ${errorMessage}`, "danger", alertWrapper);
+            return;
         }
+        const data = await response.json();
         populateTable(data, searchQuery);
     } catch (error) {
-        console.error(error);
-        insertAlert?.(error, "danger", alertWrapper)
+        console.error("An unexpected error occured: ", error);
+        insertAlert?.(`Unexpected error: ${error.message}`, "danger", alertWrapper);
     } finally {
         setLoading(false);
     }

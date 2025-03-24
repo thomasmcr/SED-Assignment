@@ -18,6 +18,10 @@ class Item(SQLModel, table=True):
     quantity: int
     item_attributes: Optional[list["ItemAttribute"]] = Relationship(back_populates="item")
 
+    class Config:
+        str_strip_whitespace = True  # Automatically strips leading/trailing whitespace from string fields
+
+
 class ItemAttribute(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     item_id: int = Field(default=None, foreign_key="item.id")

@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
+from sqlmodel import Field
 
 class RegisterUserModel(BaseModel):
     username: str
@@ -37,3 +38,22 @@ class ItemPublic(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ItemCreate(BaseModel):
+    name: str
+    description: str 
+    quantity: int = Field(gt=0, description="Quantity must be greater than zero")
+    
+    @field_validator("name")
+    def validate_name(cls, v):
+        if str(v).isdigit(): 
+            print("test")
+            raise ValueError("Name cannot be entirely numeric")
+        return v 
+    
+    @field_validator("description")
+    def validate_description(cls, v):
+        if str(v).isdigit(): 
+            print("test")
+            raise ValueError("Description cannot be entirely numeric")
+        return v 
