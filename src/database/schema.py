@@ -34,3 +34,10 @@ class Attribute(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str = Field(unique=True)
     item_attributes: Optional[list["ItemAttribute"]] = Relationship(back_populates="attribute")
+
+
+
+
+
+
+    
