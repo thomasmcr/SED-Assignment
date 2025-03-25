@@ -41,7 +41,7 @@ def put_item(update: ItemUpdate, session: SessionDep):
     if(not item_to_update): 
         raise HTTPException(status_code=404, detail=f'Ticket with ID {update.id} not found')
 
-    if(update.name):
+    if(update.name): 
         item_to_update.name = update.name
     if(update.description):
         item_to_update.description = update.description
